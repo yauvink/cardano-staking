@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import DateTimePicker from 'react-datetime-picker';
 
 import walletIcon from './assets/wallet.svg';
 import logo from './assets/logo.svg';
@@ -69,7 +68,7 @@ export default function App() {
     const myAddress = await nami.getAddress();
 
     let netId = await nami.getNetworkId();
-    const t = await nami.transaction({
+    const transaction = await nami.transaction({
       PaymentAddress: myAddress,
       recipients: recipients,
       metadata: null,
@@ -79,15 +78,23 @@ export default function App() {
       multiSig: null,
     });
 
-    const w = await nami.signTx(t);
+    const witnesses = await nami.signTx(transaction);
 
     const txHash = await nami.submitTx({
-      transactionRaw: t,
-      witnesses: [w],
-
+      transactionRaw: transaction,
+      witnesses: [witnesses],
       networkId: netId.id,
     });
-    console.log('txHash == ', txHash);
+
+    console.log("stakeAddress", stakeAddress)
+    console.log("promptAmount", promptAmount)
+    console.log("recipients", recipients)
+    console.log("utxos", utxos)
+    console.log("myAddress", myAddress)
+    console.log("transaction", transaction)
+    console.log("witnesses", witnesses)
+
+    console.log('Transaction ready. txHash == ', txHash);
   };
 
   return (
