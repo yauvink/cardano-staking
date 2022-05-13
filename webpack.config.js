@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: path.resolve(__dirname, './src/index.js'),
@@ -38,7 +39,7 @@ module.exports = {
   experiments: {
     syncWebAssembly: true,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [new webpack.HotModuleReplacementPlugin(), new Dotenv()],
   devServer: {
     contentBase: path.resolve(__dirname, './dist'),
     hot: true,
