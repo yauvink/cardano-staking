@@ -1,4 +1,3 @@
-
 const path = require('path');
 const webpack = require('webpack');
 
@@ -6,17 +5,26 @@ module.exports = {
   entry: path.resolve(__dirname, './src/index.js'),
   module: {
     rules: [
-    
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],},
+        use: ['babel-loader'],
+      },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
-    
-    
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
@@ -25,20 +33,18 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   experiments: {
     syncWebAssembly: true,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin(), 
-],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     contentBase: path.resolve(__dirname, './dist'),
     hot: true,
     historyApiFallback: true,
-    publicPath: '/', 
+    publicPath: '/',
     host: '0.0.0.0',
-      disableHostCheck: true,
-    
+    disableHostCheck: true,
   },
 };
