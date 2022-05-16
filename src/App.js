@@ -17,6 +17,10 @@ const addresses = process.env.ADDRESSES.split(',');
 export default function App() {
   const [connected, setConnected] = useState();
   const [address, setAddress] = useState();
+  const [amount, setAmount] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [stakeAddress, setStakeAddress] = useState(false);
+
   useEffect(() => {
     async function t() {
       const S = await Cardano();
@@ -56,45 +60,49 @@ export default function App() {
     });
   };
 
-  const handleStakeClick = (stakeAddress) => async (e) => {
+  const handleStake = async (e) => {
+    e.preventDefault();
     if (!connected) {
       await connect();
     }
+    try {
+      const recipients = [{ address: stakeAddress, amount: amount }];
+      let utxos = await nami.getUtxosHex();
+      const myAddress = await nami.getAddress();
 
-    const promptAmount = prompt('Set amount').toString();
+      let netId = await nami.getNetworkId();
+      const transaction = await nami.transaction({
+        PaymentAddress: myAddress,
+        recipients: recipients,
+        metadata: null,
+        utxosRaw: utxos,
+        networkId: netId.id,
+        ttl: 3600,
+        multiSig: null,
+      });
 
-    const recipients = [{ address: stakeAddress, amount: promptAmount }];
-    let utxos = await nami.getUtxosHex();
-    const myAddress = await nami.getAddress();
+      const witnesses = await nami.signTx(transaction);
 
-    let netId = await nami.getNetworkId();
-    const transaction = await nami.transaction({
-      PaymentAddress: myAddress,
-      recipients: recipients,
-      metadata: null,
-      utxosRaw: utxos,
-      networkId: netId.id,
-      ttl: 3600,
-      multiSig: null,
-    });
+      const txHash = await nami.submitTx({
+        transactionRaw: transaction,
+        witnesses: [witnesses],
+        networkId: netId.id,
+      });
 
-    const witnesses = await nami.signTx(transaction);
+      setOpen(false);
 
-    const txHash = await nami.submitTx({
-      transactionRaw: transaction,
-      witnesses: [witnesses],
-      networkId: netId.id,
-    });
+      console.log('stakeAddress', stakeAddress);
+      console.log('amount', amount);
+      console.log('recipients', recipients);
+      console.log('utxos', utxos);
+      console.log('myAddress', myAddress);
+      console.log('transaction', transaction);
+      console.log('witnesses', witnesses);
 
-    console.log("stakeAddress", stakeAddress)
-    console.log("promptAmount", promptAmount)
-    console.log("recipients", recipients)
-    console.log("utxos", utxos)
-    console.log("myAddress", myAddress)
-    console.log("transaction", transaction)
-    console.log("witnesses", witnesses)
-
-    console.log('Transaction ready. txHash == ', txHash);
+      console.log('Transaction ready. txHash == ', txHash);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -112,12 +120,47 @@ export default function App() {
         {addresses.map((stakeAddress, index) => (
           <div key={index} className="pool">
             {`${stakeAddress.substring(0, 20)}....${stakeAddress.substring(stakeAddress.length - 20)}`}
-            <button className="stakeButton" onClick={handleStakeClick(stakeAddress)}>
+            <button
+              className="button stakeButton"
+              onClick={() => {
+                setStakeAddress(stakeAddress);
+                setOpen(true);
+              }}
+            >
               Stake
             </button>
           </div>
         ))}
       </div>
+      {open && (
+        <div className="modalWrapper">
+          <div className="modal">
+            <span>Amount:</span>
+            <input
+              min={0}
+              className="input"
+              type="number"
+              value={amount}
+              onChange={(e) => {
+                setAmount(e.target.value);
+              }}
+            ></input>
+            <div className="buttonWrapper">
+              <button disabled={amount < 1} className={`button${amount >= 1 ? ' okButton' : ''}`} onClick={handleStake}>
+                Ok
+              </button>
+              <button
+                className="button cancelButton"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

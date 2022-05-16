@@ -50,7 +50,7 @@
   margin: 30px auto;
 }
 
-.stakeButton {
+.button {
   padding: 12px 25px;
   outline: none;
   box-shadow: none;
@@ -61,14 +61,21 @@
   line-height: 18px;
   text-align: center;
   border: none;
-  max-width: 107px;
   cursor: pointer;
+}
+
+.stakeButton, .okButton {
   background-color: var(--purple);
   color: white;
 }
 
 .stakeButton:hover {
   filter: brightness(0.85);
+}
+
+.cancelButton {
+  background-color: var(--light-black);
+  color: white;
 }
 
 .connectButton {
@@ -90,4 +97,43 @@
 
 .connectButton:hover {
   filter: brightness(0.85);
+}
+
+.modalWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  padding: 36px;
+  border-radius: 10px;
+  background-color: var(--white);
+}
+
+.input {
+  width: 100%;
+  display: block;
+  background: var(--white);
+  border: 1px solid black;
+  box-sizing: border-box;
+  border-radius: 2px;
+  padding: 15px 20px 15px 20px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  color: var(--light-black);
+  cursor: pointer;
+  margin: 20px 0;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: space-between;
 }
