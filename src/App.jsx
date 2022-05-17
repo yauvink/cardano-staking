@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
+import NamiWalletApi, { Cardano } from './nami-js/nami';
+import Pool from './components/pool';
 import walletIcon from './assets/wallet.svg';
 import logo from './assets/logo.svg';
-import NamiWalletApi, { Cardano } from './nami-js';
 import './App.css';
 
 let nami;
@@ -108,7 +109,7 @@ export default function App() {
   return (
     <div className="container">
       <div className="header">
-        <img src={logo} alt="logo" />
+        <img src={logo} alt="app logo" />
         <button className="connectButton" onClick={connect}>
           {connected && address
             ? `${address.substring(0, 6)}....${address.substring(address.length - 6)}`
@@ -117,20 +118,17 @@ export default function App() {
         </button>
       </div>
       <div className="pools">
-        {addresses.map((stakeAddress, index) => (
-          <div key={index} className="pool">
-            {`${stakeAddress.substring(0, 20)}....${stakeAddress.substring(stakeAddress.length - 20)}`}
-            <button
-              className="button stakeButton"
-              onClick={() => {
-                setStakeAddress(stakeAddress);
-                setOpen(true);
-              }}
-            >
-              Stake
-            </button>
-          </div>
-        ))}
+        {connected &&
+          nami &&
+          addresses.map((stakeAddress, index) => (
+            <Pool
+              key={index}
+              stakeAddress={stakeAddress}
+              nami={nami}
+              setStakeAddress={setStakeAddress}
+              setOpen={setOpen}
+            ></Pool>
+          ))}
       </div>
       {open && (
         <div className="modalWrapper">

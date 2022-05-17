@@ -48,6 +48,14 @@ class NamiWalletApi {
 
     return address;
   }
+
+  async getAddressAmount(address) {
+    const result = await this._blockfrostRequest({
+      endpoint: `/addresses/${address}`,
+    });
+    return result;
+  }
+
   async getHexAddress() {
     const addressHex = Buffer.from((await window.cardano.getUsedAddresses())[0], 'hex');
     return addressHex;
