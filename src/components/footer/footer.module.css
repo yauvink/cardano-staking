@@ -53,8 +53,6 @@
 }
 
 .input {
-  /* max-width: 318px;
-   */
   flex-grow: 1;
   height: 48px;
   border: 1px solid #FFFFFF;
@@ -96,7 +94,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  margin-top: 210px;
+  margin-top: 220px;
 }
 
 .socialWrapper>a {
