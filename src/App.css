@@ -1,17 +1,8 @@
 :root {
   --white: #FFFFFF;
-  /* unused vars */
-  --black: #1A1B1F;
-  --light-black: #262830;
-  --gray: #535270;
-  --purple: #D741F8;
-  --light-purple: #F8ECFE;
-  --dark-purple: #462785;
-  --blue: #574FF0;
-  --light-blue: #D9DDFF;
-  --light: #EDEFFF;
-  --pool-bg: #781D67;
-  --shadow: rgba(26, 27, 31, 0.05);
+  --gray: #BBBFC9;
+  --inter: 'Inter', sans-serif;
+  --grotesque: 'Darker Grotesque', sans-serif;
 }
 
 * {
@@ -19,9 +10,9 @@
   margin: 0;
 }
 
-#adalend_staking {
+.adalend_staking {
   display: flex;
   flex-direction: column;
-  max-width: 1680px;
   min-height: 100vh;
+  margin: auto;
 }

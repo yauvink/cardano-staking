@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import NamiWalletApi, { Cardano } from './nami-js/nami';
-import Pools from './components/pools';
 import Header from './components/header';
+import Pools from './components/pools';
+import Footer from './components/footer';
 import bg1 from './assets/bg1.svg';
 import bg2 from './assets/bg2.svg';
 import './App.css';
@@ -111,7 +112,7 @@ export default function App() {
 
   return (
     <div
-      id="adalend_staking"
+      className='adalend_staking'
       style={{
         backgroundImage: `url(${bg1}), url(${bg2})`,
         backgroundRepeat: 'no-repeat, no-repeat',
@@ -127,7 +128,8 @@ export default function App() {
         setStakeAddress={setStakeAddress}
         setOpen={setOpen}
         walletAddress={walletAddress}
-      ></Pools>
+      />
+      <Footer />
       {open && (
         <div className="modalWrapper">
           <div className="modal">
