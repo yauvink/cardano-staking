@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import NamiWalletApi, { Cardano } from './nami-js/nami';
 import Pool from './components/pool';
-import walletIcon from './assets/wallet.svg';
-import logo from './assets/logo.svg';
+import Header from './components/header';
 import './App.css';
 
 let nami;
@@ -45,11 +44,13 @@ export default function App() {
 
   const connect = async () => {
     // Connects nami wallet to current website
+    console.log('connect');
     await nami
       .enable()
       .then((result) => setConnected(result))
       .catch((e) => console.log(e));
   };
+  console.log('connected', connected);
 
   const getAddress = async () => {
     // retrieve address of nami wallet
@@ -108,15 +109,12 @@ export default function App() {
 
   return (
     <div className="container">
-      <div className="header">
-        <img src={logo} alt="app logo" />
-        <button className="connectButton" onClick={connect}>
-          {connected && address
-            ? `${address.substring(0, 6)}....${address.substring(address.length - 6)}`
-            : 'Connect wallet'}
-          <img src={walletIcon} alt="wallet" className="header-icon_connect" />
-        </button>
-      </div>
+      <Header />
+      <button className="connectButton" onClick={connect}>
+        {connected && address
+          ? `${address.substring(0, 6)}....${address.substring(address.length - 6)}`
+          : 'Connect wallet'}
+      </button>
       <div className="pools">
         {connected &&
           nami &&

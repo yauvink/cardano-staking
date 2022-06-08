@@ -1,3 +1,3 @@
-import { Pool } from "./pool";
+import Pool from "./pool";
 
 export default Pool

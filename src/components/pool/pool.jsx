@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import tokenLogo from '../../assets/tokenLogo.svg';
 
-export function Pool({ nami, stakeAddress, setStakeAddress, setOpen }) {
+import tokenLogo from '../../assets/tokenLogo.svg';
+import styles from './pool.module.css'
+
+export default function Pool({ nami, stakeAddress, setStakeAddress, setOpen }) {
   const [amount, setAmount] = useState();
   const getAddressAmount = async (address) => {
     return await nami.getAddressAmount(address).then((result) => result);
@@ -16,12 +18,12 @@ export function Pool({ nami, stakeAddress, setStakeAddress, setOpen }) {
   }, [nami]);
 
   return (
-    <div className="pool">
+    <div className={styles.pool}>
        <img src={tokenLogo} alt="token logo" />
       {`${stakeAddress.substring(0, 20)}....${stakeAddress.substring(stakeAddress.length - 20)}`}
       <span>Amount: {amount / 1000000}</span>
       <button
-        className="button stakeButton"
+        className={styles.button}
         onClick={() => {
           setStakeAddress(stakeAddress);
           setOpen(true);
