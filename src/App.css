@@ -19,7 +19,7 @@
   margin: 0;
 }
 
-.container {
+#adalend_staking {
   display: flex;
   flex-direction: column;
   max-width: 1680px;

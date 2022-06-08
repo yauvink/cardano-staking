@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 import NamiWalletApi, { Cardano } from './nami-js/nami';
-import Pool from './components/pool';
+import Pools from './components/pools';
 import Header from './components/header';
+import bg1 from './assets/bg1.svg';
+import bg2 from './assets/bg2.svg';
 import './App.css';
 
 let nami;
@@ -16,7 +18,7 @@ const addresses = process.env.ADDRESSES.split(',');
 
 export default function App() {
   const [connected, setConnected] = useState();
-  const [address, setAddress] = useState();
+  const [walletAddress, setWalletAddress] = useState();
   const [amount, setAmount] = useState(0);
   const [open, setOpen] = useState(false);
   const [stakeAddress, setStakeAddress] = useState(false);
@@ -58,7 +60,7 @@ export default function App() {
       await connect();
     }
     await nami.getAddress().then((newAddress) => {
-      setAddress(newAddress);
+      setWalletAddress(newAddress);
     });
   };
 
@@ -108,26 +110,24 @@ export default function App() {
   };
 
   return (
-    <div className="container">
+    <div
+      id="adalend_staking"
+      style={{
+        backgroundImage: `url(${bg1}), url(${bg2})`,
+        backgroundRepeat: 'no-repeat, no-repeat',
+        backgroundPosition: 'top left, top right',
+      }}
+    >
       <Header />
-      <button className="connectButton" onClick={connect}>
-        {connected && address
-          ? `${address.substring(0, 6)}....${address.substring(address.length - 6)}`
-          : 'Connect wallet'}
-      </button>
-      <div className="pools">
-        {connected &&
-          nami &&
-          addresses.map((stakeAddress, index) => (
-            <Pool
-              key={index}
-              stakeAddress={stakeAddress}
-              nami={nami}
-              setStakeAddress={setStakeAddress}
-              setOpen={setOpen}
-            ></Pool>
-          ))}
-      </div>
+      <Pools
+        addresses={addresses}
+        connected={connected}
+        connect={connect}
+        nami={nami}
+        setStakeAddress={setStakeAddress}
+        setOpen={setOpen}
+        walletAddress={walletAddress}
+      ></Pools>
       {open && (
         <div className="modalWrapper">
           <div className="modal">
