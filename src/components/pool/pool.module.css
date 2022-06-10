@@ -1,10 +1,102 @@
 .pool {
-  border: 1px solid red;
-  margin: 20px 30px;
+  border-left: 1px solid var(--black);
+  margin: 10px 30px;
   padding: 20px;
   background-color: var(--white);
   box-shadow: 0px 4px 4px rgba(var(--black), 0.05), 0px 6px 16px var(--shadow);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.poolLogo {
+  margin-left: 5px;
+}
+
+.stakeButton {
+  width: 121px;
+  height: 42px;
+  border-radius: 23px;
+  background-color: var(--black);
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  font-family: var(--inter);
+  font-size: 14px;
+  line-height: 18px;
+  margin-right: 10px;
+}
+
+.stakeButton:hover {
+  filter: opacity(0.85);
+}
+
+.stakeButton:active {
+  filter: opacity(0.55);
+}
+
+.detailsButton {
+  margin-right: 10px;
+  width: 121px;
+  height: 42px;
+  border-radius: 23px;
+  background-color: transparent;
+  border: 1px solid var(--black);
+  cursor: pointer;
+  font-family: var(--inter);
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.detailsButton:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.detailsButton:active {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+.walletInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.walletInfo>span {
+  display: block;
+}
+
+.walletInfo>span:first-child {
+  font-size: 10px;
+  line-height: 14px;
+  color: var(--grayText);
+  text-transform: uppercase;
+  font-family: var(--inter);
+  font-weight: 500;
+}
+
+.walletInfo>span:last-child {
+  font-size: 16px;
+  line-height: 20px;
+  font-family: var(--inter);
+  font-weight: 500;
+}
+.poolTitle {
+  font-family: var(--grotesque);
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--black);
+  width: 170px
+}
+.duration{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }

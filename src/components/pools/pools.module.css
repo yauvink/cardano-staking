@@ -3,6 +3,8 @@
   width: 100%;
   margin: auto;
   margin-top: 0px;
+  margin-bottom: 60px;
+  flex-grow: 1;
 }
 
 .header {
@@ -68,20 +70,23 @@
   background-color: rgba(0, 0, 0, 0.35);
 }
 
-.walletInfoWrapper{
+.walletInfoWrapper {
   display: flex;
   flex-direction: row;
   gap: 30px;
 }
-.walletInfo{
+
+.walletInfo {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-.walletInfo>span{
+
+.walletInfo>span {
   display: block;
 }
-.walletInfo>span:first-child{
+
+.walletInfo>span:first-child {
   font-size: 10px;
   line-height: 14px;
   color: var(--grayText);
@@ -89,9 +94,9 @@
   font-family: var(--inter);
 }
 
-.walletInfo>span:last-child{
+.walletInfo>span:last-child {
   font-size: 18px;
   line-height: 24px;
   font-family: var(--inter);
-font-weight: 600;
+  font-weight: 600;
 }

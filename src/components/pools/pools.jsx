@@ -47,17 +47,17 @@ export default function Pools({ walletAddress, connected, addresses, nami, setSt
           </button>
         )}
       </div>
-      {connected &&
-        nami ?
-        addresses.map((stakeAddress, index) => (
-          <Pool
-            key={index}
-            stakeAddress={stakeAddress}
-            nami={nami}
-            setStakeAddress={setStakeAddress}
-            setOpen={setOpen}
-          ></Pool>
-        )) : 'Not available'}
+      {connected && nami
+        ? addresses.map((stakeAddress, index) => (
+            <Pool
+              key={index}
+              stakeAddress={stakeAddress}
+              nami={nami}
+              setStakeAddress={setStakeAddress}
+              setOpen={setOpen}
+            ></Pool>
+          ))
+        : 'Not available'}
     </div>
   );
 }

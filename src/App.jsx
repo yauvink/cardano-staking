@@ -14,7 +14,16 @@ const blockfrostApiKey = {
   0: process.env.BLOCKFROST_API_KEY_TESTNET,
   1: process.env.BLOCKFROST_API_KEY_MAINNET,
 };
-
+// const pool = {
+//   poolMintAddress: '',
+//   poolTitle: '',
+//   youStaked: '', // ??
+//   pendingRewards: '', // ??
+//   apr: '',
+//   totalStaked: '',
+//   duration: '',
+//   durationStartDate: '', // ??
+// };
 const addresses = process.env.ADDRESSES.split(',');
 
 export default function App() {
