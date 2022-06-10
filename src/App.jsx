@@ -24,7 +24,7 @@ const addresses = process.env.ADDRESSES.split(',');
 export default function App() {
   const [connected, setConnected] = useState();
   const [walletAddress, setWalletAddress] = useState();
-  const [amountToStake, setAmountToStake] = useState(0);
+  const [amountToStake, setAmountToStake] = useState(100);
   const [stakeAddress, setStakeAddress] = useState(false);
   const [pools, setPools] = useState([])
 
@@ -150,6 +150,7 @@ export default function App() {
         walletAddress={walletAddress}
         pools={pools}
         handleStake={handleStake}
+        stakeAddress={stakeAddress}
       />
       <Footer />
     </div>

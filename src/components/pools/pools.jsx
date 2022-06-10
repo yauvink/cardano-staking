@@ -15,6 +15,7 @@ export default function Pools({
   connect,
   pools,
   handleStake,
+  stakeAddress
 }) {
   const [walletBalance, setWalletBalance] = useState();
   const [isStakingOpen, setStakingOpen] = useState(false);
@@ -62,20 +63,32 @@ export default function Pools({
         <>
           <div className={styles.stakingWrapper}>
             <div className={styles.stakingInner}>
+              <span className={styles.inputLabel}>Amount to stake</span>
               <input
                 min={0}
-                className="input"
+                className={styles.amountInput}
                 type="number"
                 value={amountToStake}
                 onChange={(e) => {
                   setAmountToStake(e.target.value);
                 }}
               ></input>
-              <button disabled={amountToStake <= 0} onClick={handleStake}>
-                Ok
+              <span className={styles.amountInputUSDTValue}>
+                USDT value <b>~$2,000.12</b>
+              </span>
+              <span className={styles.inputLabel}>Period to stake</span>
+              <input disabled className={styles.periodInput} value={amountToStake}></input>
+              <span className={styles.stakeText}>
+                You will gain rewards for the selected period. Your staked amount will be locked and non-withdrawable
+                during that time.
+              </span>
+              <button className={styles.stakeNowBtn} disabled={amountToStake <= 0} onClick={handleStake}>
+                Stake now
               </button>
             </div>
-            <div className={styles.stakingInner}></div>
+            <div className={styles.stakingInner}>
+              addr to stake: {stakeAddress}
+            </div>
           </div>
         </>
       ) : (

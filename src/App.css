@@ -1,8 +1,10 @@
 :root {
   --white: #FFFFFF;
   --black: #0F0F0F;
+  --textBlack: #262830:
   --gray: #BBBFC9;
   --grayText: #6C7696;
+  --inputGray: #EBEFFC;
   --red: #F23076;
   --inter: 'Inter', sans-serif;
   --grotesque: 'Darker Grotesque', sans-serif;
