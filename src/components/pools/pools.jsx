@@ -5,8 +5,19 @@ import connectBtnIcon from '../../assets/connectBtnIcon.svg';
 import disconnectBtnIcon from '../../assets/disconnectBtnIcon.svg';
 import styles from './pools.module.css';
 
-export default function Pools({ walletAddress, connected, addresses, nami, setStakeAddress, setOpen, connect }) {
+export default function Pools({
+  walletAddress,
+  connected,
+  nami,
+  setStakeAddress,
+  amountToStake,
+  setAmountToStake,
+  connect,
+  pools,
+  handleStake,
+}) {
   const [walletBalance, setWalletBalance] = useState();
+  const [isStakingOpen, setStakingOpen] = useState(false);
 
   useEffect(() => {
     if (nami && walletAddress) {
@@ -19,7 +30,7 @@ export default function Pools({ walletAddress, connected, addresses, nami, setSt
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <span className={styles.title}>Staking pools</span>
+        <span className={styles.title}>{isStakingOpen ? 'Stake tokens' : 'Staking pools'}</span>
         {connected && walletAddress ? (
           <div className={styles.walletInfoWrapper}>
             <div className={styles.walletInfo}>
@@ -47,17 +58,41 @@ export default function Pools({ walletAddress, connected, addresses, nami, setSt
           </button>
         )}
       </div>
-      {connected && nami
-        ? addresses.map((stakeAddress, index) => (
-            <Pool
-              key={index}
-              stakeAddress={stakeAddress}
-              nami={nami}
-              setStakeAddress={setStakeAddress}
-              setOpen={setOpen}
-            ></Pool>
-          ))
-        : 'Not available'}
+      {isStakingOpen ? (
+        <>
+          <div className={styles.stakingWrapper}>
+            <div className={styles.stakingInner}>
+              <input
+                min={0}
+                className="input"
+                type="number"
+                value={amountToStake}
+                onChange={(e) => {
+                  setAmountToStake(e.target.value);
+                }}
+              ></input>
+              <button disabled={amountToStake <= 0} onClick={handleStake}>
+                Ok
+              </button>
+            </div>
+            <div className={styles.stakingInner}></div>
+          </div>
+        </>
+      ) : (
+        <>
+          {connected && nami
+            ? pools.map((pool, index) => (
+                <Pool
+                  key={index}
+                  pool={pool}
+                  nami={nami}
+                  setStakeAddress={setStakeAddress}
+                  setStakingOpen={setStakingOpen}
+                ></Pool>
+              ))
+            : 'Not available'}
+        </>
+      )}
     </div>
   );
 }

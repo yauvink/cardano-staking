@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import NamiWalletApi, { Cardano } from './nami-js/nami';
 import Header from './components/header';
@@ -14,24 +15,30 @@ const blockfrostApiKey = {
   0: process.env.BLOCKFROST_API_KEY_TESTNET,
   1: process.env.BLOCKFROST_API_KEY_MAINNET,
 };
-// const pool = {
-//   poolMintAddress: '',
-//   poolTitle: '',
-//   youStaked: '', // ??
-//   pendingRewards: '', // ??
-//   apr: '',
-//   totalStaked: '',
-//   duration: '',
-//   durationStartDate: '', // ??
-// };
+
 const addresses = process.env.ADDRESSES.split(',');
+
+// curl -X POST http://15.156.0.236:8888/adalend/createPool -H "Content-Type:application/json" -d '{"poolTitle":"Looooooong poooooool nameeeeee Looooooong poooooool nameeeeee","poolMintAddress":"taddr0000","apr":44.57,"duration":15}'
+
 
 export default function App() {
   const [connected, setConnected] = useState();
   const [walletAddress, setWalletAddress] = useState();
-  const [amount, setAmount] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [amountToStake, setAmountToStake] = useState(0);
   const [stakeAddress, setStakeAddress] = useState(false);
+  const [pools, setPools] = useState([])
+
+  const fetchPools = () => {
+    axios
+      .get('http://15.156.0.236:8888/adalend/getpools')
+      .then((response) => {
+        console.log(response.data);
+        setPools(response.data)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   useEffect(() => {
     async function t() {
@@ -44,6 +51,7 @@ export default function App() {
         });
       }
     }
+    fetchPools()
 
     t();
   }, []);
@@ -75,12 +83,14 @@ export default function App() {
   };
 
   const handleStake = async (e) => {
+    console.log('stakeAddress', stakeAddress);
+    console.log('amountToStake', amountToStake);
     e.preventDefault();
     if (!connected) {
       await connect();
     }
     try {
-      const recipients = [{ address: stakeAddress, amount: amount }];
+      const recipients = [{ address: stakeAddress, amount: amountToStake }];
       let utxos = await nami.getUtxosHex();
       const myAddress = await nami.getAddress();
 
@@ -103,10 +113,10 @@ export default function App() {
         networkId: netId.id,
       });
 
-      setOpen(false);
+      // setOpen(false);
 
       console.log('stakeAddress', stakeAddress);
-      console.log('amount', amount);
+      console.log('amountToStake', amountToStake);
       console.log('recipients', recipients);
       console.log('utxos', utxos);
       console.log('myAddress', myAddress);
@@ -135,39 +145,13 @@ export default function App() {
         connect={connect}
         nami={nami}
         setStakeAddress={setStakeAddress}
-        setOpen={setOpen}
+        setAmountToStake={setAmountToStake}
+        amountToStake={amountToStake}
         walletAddress={walletAddress}
+        pools={pools}
+        handleStake={handleStake}
       />
       <Footer />
-      {open && (
-        <div className="modalWrapper">
-          <div className="modal">
-            <span>Amount:</span>
-            <input
-              min={0}
-              className="input"
-              type="number"
-              value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value);
-              }}
-            ></input>
-            <div className="buttonWrapper">
-              <button disabled={amount < 1} className={`button${amount >= 1 ? ' okButton' : ''}`} onClick={handleStake}>
-                Ok
-              </button>
-              <button
-                className="button cancelButton"
-                onClick={() => {
-                  setOpen(false);
-                }}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

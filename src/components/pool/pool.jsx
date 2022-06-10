@@ -5,14 +5,14 @@ import shieldLock from '../../assets/shieldLock.svg';
 import shieldLockRed from '../../assets/shieldLockRed.svg';
 import styles from './pool.module.css';
 
-export default function Pool({ nami, stakeAddress, setStakeAddress, setOpen }) {
+export default function Pool({ nami, setStakeAddress, setStakingOpen, pool }) {
   const isStaked = false;
 
   return (
     <div className={styles.pool}>
       <div className={styles.titleWrapper}>
         <img className={styles.poolLogo} src={poolLogo} alt="logo"></img>
-        <span className={styles.poolTitle}>Pool title</span>
+        <span className={styles.poolTitle}>{pool.poolTitle}</span>
       </div>
       <div className={styles.walletInfo}>
         <span>You Staked</span>
@@ -20,21 +20,21 @@ export default function Pool({ nami, stakeAddress, setStakeAddress, setOpen }) {
       </div>
       <div className={styles.walletInfo}>
         <span>Pending rewards</span>
-        <span>18.16 ADAL</span>
+        <span>--.-- ADAL</span>
       </div>
       <div className={styles.walletInfo}>
         <span>APR</span>
-        <span>22.54 %</span>
+        <span>{pool.apr} %</span>
       </div>
       <div className={styles.walletInfo}>
         <span>Total Staked</span>
-        <span>~ $ 48,357,412</span>
+        <span>~ $ --,---,---</span>
       </div>
       <div className={styles.duration}>
         <img src={isStaked ? shieldLockRed : shieldLock} alt="lock"></img>
         <div className={styles.walletInfo}>
           <span>{isStaked ? 'Time left' : 'Duration'}</span>
-          <span>444 days</span>
+          <span>{pool.duration} days ??</span>
         </div>
       </div>
       {isStaked ? (
@@ -50,8 +50,8 @@ export default function Pool({ nami, stakeAddress, setStakeAddress, setOpen }) {
         <button
           className={styles.stakeButton}
           onClick={() => {
-            setStakeAddress(stakeAddress);
-            setOpen(true);
+            setStakeAddress(pool.poolMintAddress);
+            setStakingOpen(true);
           }}
         >
           Stake now

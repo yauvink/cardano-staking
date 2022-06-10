@@ -47,7 +47,7 @@
 
 
 .disconnectBtn {
-  width: 168px;
+  width: 148px;
   height: 46px;
   border-radius: 23px;
   background-color: transparent;
@@ -99,4 +99,21 @@
   line-height: 24px;
   font-family: var(--inter);
   font-weight: 600;
+}
+
+.stakingWrapper {
+  display: flex;
+  flex-direction: row;
+  max-width: 1230px;
+  width: 100%;
+  margin: auto;
+  margin-top: 0px;
+  margin-bottom: 60px;
+  flex-grow: 1;
+}
+
+.stakingInner {
+  border-top: 1px solid var(--black);
+  width: 100%;
+  margin: 0 30px;
 }
