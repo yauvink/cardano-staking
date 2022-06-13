@@ -23,9 +23,11 @@ Before you can use the NamiWalletApi you have to create an account to get a bloc
 Create a ```.env``` file and add your API key information.
 ```js
 
+
 BLOCKFROST_API_KEY_TESTNET=""    //testnet
 BLOCKFROST_API_KEY_MAINNET=""    //mainnet
-ADDRESSES="  ,  ,  ,  ,  "       //addresses split by ','
+TOKEN_POLICY=  // Policy string
+TOKEN_NAME=  // name
 
 ```
 
