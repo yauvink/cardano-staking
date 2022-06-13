@@ -56,6 +56,13 @@ class NamiWalletApi {
     return result;
   }
 
+  async getAssets(Asset) {
+    const result = await this._blockfrostRequest({
+      endpoint: `/assets/${Asset}`,
+    });
+    return result;
+  }
+
   async getHexAddress() {
     const addressHex = Buffer.from((await window.cardano.getUsedAddresses())[0], 'hex');
     return addressHex;

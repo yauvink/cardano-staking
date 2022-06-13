@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import poolLogo from '../../assets/poolLogo.svg';
 import shieldLock from '../../assets/shieldLock.svg';
 import shieldLockRed from '../../assets/shieldLockRed.svg';
 import styles from './pool.module.css';
 
-export default function Pool({ nami, setStakeAddress, setStakingOpen, pool }) {
+export default function Pool({ setSelectedPool, setStakingOpen, pool }) {
   const isStaked = false;
 
   return (
@@ -34,7 +34,7 @@ export default function Pool({ nami, setStakeAddress, setStakingOpen, pool }) {
         <img src={isStaked ? shieldLockRed : shieldLock} alt="lock"></img>
         <div className={styles.walletInfo}>
           <span>{isStaked ? 'Time left' : 'Duration'}</span>
-          <span>{pool.duration} days ??</span>
+          <span>{pool.duration} days</span>
         </div>
       </div>
       {isStaked ? (
@@ -50,7 +50,7 @@ export default function Pool({ nami, setStakeAddress, setStakingOpen, pool }) {
         <button
           className={styles.stakeButton}
           onClick={() => {
-            setStakeAddress(pool.poolMintAddress);
+            setSelectedPool(pool);
             setStakingOpen(true);
           }}
         >

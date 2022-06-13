@@ -43,6 +43,7 @@
     "dotenv-webpack": "^7.1.0",
     "fs-extra": "^10.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "iconv-lite": "^0.6.3",
     "lodash.clonedeep": "^4.5.0",
     "react": "^17.0.2",
     "react-datetime-picker": "^3.4.3",
