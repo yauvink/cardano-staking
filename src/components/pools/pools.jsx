@@ -19,10 +19,10 @@ export default function Pools({
   selectedPool,
   POLICY,
   TOKEN_NAME,
-  setConnected
+  isStakingOpen,
+  setStakingOpen,
 }) {
   const [walletBalance, setWalletBalance] = useState();
-  const [isStakingOpen, setStakingOpen] = useState(false);
 
   useEffect(() => {
     if (nami && walletAddress) {
@@ -30,8 +30,7 @@ export default function Pools({
         const amount = result.amount.find((amount) => {
           return amount.unit === `${POLICY}${iconv.decode(iconv.encode(TOKEN_NAME, 'utf-8'), 'hex')}`;
         });
-
-        setWalletBalance(amount.quantity);
+        setWalletBalance(amount ? amount.quantity : 0);
       });
     }
   }, [nami, walletAddress]);
@@ -72,15 +71,24 @@ export default function Pools({
           <div className={styles.stakingWrapper}>
             <div className={styles.stakingInner}>
               <span className={styles.inputLabel}>Amount to stake</span>
-              <input
-                min={0}
-                className={styles.amountInput}
-                type="number"
-                value={amountToStake}
-                onChange={(e) => {
-                  setAmountToStake(e.target.value);
-                }}
-              ></input>
+              <div className={styles.amountInputWrapper}>
+                <input
+                  min={0}
+                  className={styles.amountInput}
+                  type="number"
+                  value={amountToStake}
+                  onChange={(e) => {
+                    setAmountToStake(e.target.value);
+                  }}
+                ></input>
+                <button
+                  onClick={() => {
+                    setAmountToStake(walletBalance);
+                  }}
+                >
+                  Set max
+                </button>
+              </div>
               <span className={styles.amountInputUSDTValue}>
                 USDT value <b>~$-,---.--</b>
               </span>
@@ -94,22 +102,26 @@ export default function Pools({
                 Stake now
               </button>
             </div>
-            <div className={styles.stakingInner}>
-            </div>
+            <div className={styles.stakingInner}></div>
           </div>
         </>
       ) : (
         <>
-          {connected && nami
-            ? pools.map((pool, index) => (
-                <Pool
-                  key={index}
-                  pool={pool}
-                  setSelectedPool={setSelectedPool}
-                  setStakingOpen={setStakingOpen}
-                ></Pool>
-              ))
-            : 'Not available'}
+          {connected && nami ? (
+            pools.map((pool, index) => (
+              <Pool
+                key={index}
+                pool={pool}
+                setSelectedPool={setSelectedPool}
+                setStakingOpen={setStakingOpen}
+                nami={nami}
+                POLICY={POLICY}
+                TOKEN_NAME={TOKEN_NAME}
+              ></Pool>
+            ))
+          ) : (
+            <span className={styles.notAvailable}>Not available</span>
+          )}
         </>
       )}
     </div>

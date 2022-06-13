@@ -210,3 +210,31 @@ input[type=number] {
   filter: opacity(0.55);
   cursor: not-allowed;
 }
+
+.amountInputWrapper {
+  position: relative;
+}
+
+.amountInputWrapper>button {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--inter);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: #420CF2
+}
+
+.amountInputWrapper>button:hover {
+  filter: opacity(0.85);
+}
+
+.notAvailable {
+  font-family: var(--inter);
+  font-size: 28px;
+  margin: 50px;
+}

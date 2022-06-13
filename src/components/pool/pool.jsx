@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import * as iconv from 'iconv-lite';
 
 import poolLogo from '../../assets/poolLogo.svg';
 import shieldLock from '../../assets/shieldLock.svg';
 import shieldLockRed from '../../assets/shieldLockRed.svg';
 import styles from './pool.module.css';
 
-export default function Pool({ setSelectedPool, setStakingOpen, pool }) {
+export default function Pool({ POLICY, TOKEN_NAME, nami, setSelectedPool, setStakingOpen, pool }) {
   const isStaked = false;
+  const [totalStaked, setTotalStaked] = useState(null);
+
+  useEffect(() => {
+    nami.getAddressAmount(pool.poolMintAddress).then((result) => {
+      if (result.amount) {
+        const amount = result.amount.find((amount) => {
+          return amount.unit === `${POLICY}${iconv.decode(iconv.encode(TOKEN_NAME, 'utf-8'), 'hex')}`;
+        });
+        setTotalStaked(amount ? amount.quantity : 0);
+      } else {
+        setTotalStaked('---');
+      }
+    });
+  }, []);
 
   return (
     <div className={styles.pool}>
@@ -28,7 +43,7 @@ export default function Pool({ setSelectedPool, setStakingOpen, pool }) {
       </div>
       <div className={styles.walletInfo}>
         <span>Total Staked</span>
-        <span>~ $ --,---,---</span>
+        <span>{totalStaked} ADAL</span>
       </div>
       <div className={styles.duration}>
         <img src={isStaked ? shieldLockRed : shieldLock} alt="lock"></img>
